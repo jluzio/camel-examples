@@ -26,7 +26,8 @@
     <dependencies>
       <dependency>
         <groupId>org.apache.camel.springboot</groupId>
-        <artifactId>camel-spring-boot-dependencies</artifactId>
+        <artifactId>camel-spring-boot-bom</artifactId>
+<!--        <artifactId>camel-spring-boot-dependencies</artifactId>-->
         <version>${camel.version}</version>
         <type>pom</type>
         <scope>import</scope>
@@ -60,6 +61,24 @@
       <artifactId>lombok</artifactId>
       <optional>true</optional>
     </dependency>
+
+    <dependency>
+      <groupId>org.apache.camel.springboot</groupId>
+      <artifactId>camel-servlet-starter</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.camel.springboot</groupId>
+      <artifactId>camel-jackson-starter</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.camel.springboot</groupId>
+      <artifactId>camel-swagger-java-starter</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.camel.springboot</groupId>
+      <artifactId>camel-reactive-streams-starter</artifactId>
+    </dependency>
+
     <dependency>
       <groupId>org.springframework.boot</groupId>
       <artifactId>spring-boot-starter-test</artifactId>
@@ -71,6 +90,27 @@
       <scope>test</scope>
     </dependency>
   </dependencies>
+
+  <profiles>
+    <profile>
+      <id>kafka</id>
+      <dependencies>
+        <dependency>
+          <groupId>org.apache.camel.springboot</groupId>
+          <artifactId>camel-kafka-starter</artifactId>
+        </dependency>
+      </dependencies>
+    </profile>
+    <profile>
+      <id>rabbit</id>
+      <dependencies>
+        <dependency>
+          <groupId>org.apache.camel.springboot</groupId>
+          <artifactId>camel-rabbitmq-starter</artifactId>
+        </dependency>
+      </dependencies>
+    </profile>
+  </profiles>
 
   <build>
     <plugins>
