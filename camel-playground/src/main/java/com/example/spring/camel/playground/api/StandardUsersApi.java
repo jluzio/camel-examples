@@ -10,11 +10,11 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequiredArgsConstructor
-public class UsersApi {
+public class StandardUsersApi {
 
   private final ProducerTemplate producerTemplate;
 
-  @GetMapping("/users")
+  @GetMapping("/standard/users")
   @ResponseBody
   public List<User> getUsers() {
     producerTemplate.start();

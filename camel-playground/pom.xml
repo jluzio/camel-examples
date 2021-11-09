@@ -32,8 +32,7 @@
     <dependencies>
       <dependency>
         <groupId>org.apache.camel.springboot</groupId>
-        <artifactId>camel-spring-boot-bom</artifactId>
-<!--        <artifactId>camel-spring-boot-dependencies</artifactId>-->
+        <artifactId>camel-spring-boot-dependencies</artifactId>
         <version>${camel.version}</version>
         <type>pom</type>
         <scope>import</scope>
@@ -45,10 +44,6 @@
     <dependency>
       <groupId>org.springframework.boot</groupId>
       <artifactId>spring-boot-starter-web</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>org.apache.camel.springboot</groupId>
-      <artifactId>camel-spring-boot-starter</artifactId>
     </dependency>
 
     <dependency>
@@ -74,29 +69,33 @@
       <version>${org.mapstruct.version}</version>
     </dependency>
 
-<!--
     <dependency>
       <groupId>org.apache.camel.springboot</groupId>
-      <artifactId>camel-activemq-starter</artifactId>
+      <artifactId>camel-spring-boot-starter</artifactId>
     </dependency>
     <dependency>
       <groupId>org.apache.camel.springboot</groupId>
       <artifactId>camel-servlet-starter</artifactId>
     </dependency>
--->
-
     <dependency>
       <groupId>org.apache.camel.springboot</groupId>
       <artifactId>camel-jackson-starter</artifactId>
     </dependency>
     <dependency>
       <groupId>org.apache.camel.springboot</groupId>
-      <artifactId>camel-swagger-java-starter</artifactId>
+      <artifactId>camel-openapi-java-starter</artifactId>
     </dependency>
     <dependency>
       <groupId>org.apache.camel.springboot</groupId>
       <artifactId>camel-reactive-streams-starter</artifactId>
     </dependency>
+
+    <!--
+        <dependency>
+          <groupId>org.apache.camel.springboot</groupId>
+          <artifactId>camel-activemq-starter</artifactId>
+        </dependency>
+    -->
 
     <!-- OpenApi -->
     <dependency>
@@ -104,6 +103,50 @@
       <artifactId>jackson-databind-nullable</artifactId>
       <version>0.2.1</version>
     </dependency>
+    <dependency>
+      <groupId>com.google.code.findbugs</groupId>
+      <artifactId>jsr305</artifactId>
+      <version>3.0.2</version>
+    </dependency>
+    <dependency>
+      <groupId>org.springdoc</groupId>
+      <artifactId>springdoc-openapi-ui</artifactId>
+      <version>1.5.12</version>
+    </dependency>
+<!--
+    <dependency>
+      <groupId>io.swagger.core.v3</groupId>
+      <artifactId>swagger-annotations</artifactId>
+      <version>2.1.11</version>
+    </dependency>
+-->
+    <dependency>
+      <groupId>io.swagger</groupId>
+      <artifactId>swagger-annotations</artifactId>
+      <version>1.6.3</version>
+    </dependency>
+    <dependency>
+      <groupId>org.openapitools</groupId>
+      <artifactId>jackson-databind-nullable</artifactId>
+      <version>0.2.1</version>
+    </dependency>
+<!--
+    <dependency>
+      <groupId>org.springframework.data</groupId>
+      <artifactId>spring-data-commons</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>io.springfox</groupId>
+      <artifactId>springfox-core</artifactId>
+      <version>3.0.0</version>
+    </dependency>
+    <dependency>
+      <groupId>com.google.code.findbugs</groupId>
+      <artifactId>jsr305</artifactId>
+      <version>3.0.2</version>
+    </dependency>
+-->
+
 
     <dependency>
       <groupId>org.springframework.boot</groupId>
@@ -166,20 +209,29 @@
         </executions>
       </plugin>
       <plugin>
-        <groupId>com.backbase.oss</groupId>
-        <artifactId>boat-maven-plugin</artifactId>
-        <version>${boat-maven-plugin.version}</version>
+        <groupId>org.openapitools</groupId>
+        <artifactId>openapi-generator-maven-plugin</artifactId>
+        <version>5.3.0</version>
         <executions>
           <execution>
             <id>generate-jsonplaceholder-api</id>
             <goals>
-              <goal>generate-rest-template-embedded</goal>
+              <goal>generate</goal>
             </goals>
             <phase>generate-sources</phase>
             <configuration>
-              <inputSpec>${spec.resources.path}/jsonplaceholder/jsonplaceholder-api-*.yaml</inputSpec>
-              <apiPackage>com.example.api.jsonplaceholder.api.v1</apiPackage>
-              <modelPackage>com.example.api.jsonplaceholder.api.v1.model</modelPackage>
+              <generatorName>java</generatorName>
+              <java8>true</java8>
+              <inputSpec>${spec.resources.path}/jsonplaceholder/jsonplaceholder-api-v1.0.0.yaml</inputSpec>
+              <generateApiTests>false</generateApiTests>
+              <generateModelTests>false</generateModelTests>
+              <configOptions>
+                <library>resttemplate</library>
+                <dateLibrary>java8</dateLibrary>
+                <apiPackage>com.example.api.jsonplaceholder.api.v1</apiPackage>
+                <modelPackage>com.example.api.jsonplaceholder.api.v1.model</modelPackage>
+                <useBeanValidation>true</useBeanValidation>
+              </configOptions>
             </configuration>
           </execution>
         </executions>
