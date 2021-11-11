@@ -90,14 +90,18 @@
       <artifactId>camel-reactive-streams-starter</artifactId>
     </dependency>
 
+    <dependency>
+      <groupId>com.google.guava</groupId>
+      <artifactId>guava</artifactId>
+      <version>31.0.1-jre</version>
+    </dependency>
+
     <!--
         <dependency>
           <groupId>org.apache.camel.springboot</groupId>
           <artifactId>camel-activemq-starter</artifactId>
         </dependency>
-    -->
-
-    <!-- OpenApi -->
+    --><!-- OpenApi -->
     <dependency>
       <groupId>org.openapitools</groupId>
       <artifactId>jackson-databind-nullable</artifactId>
@@ -147,7 +151,6 @@
     </dependency>
 -->
 
-
     <dependency>
       <groupId>org.springframework.boot</groupId>
       <artifactId>spring-boot-starter-test</artifactId>
@@ -156,6 +159,11 @@
     <dependency>
       <groupId>io.projectreactor</groupId>
       <artifactId>reactor-test</artifactId>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.camel</groupId>
+      <artifactId>camel-test-spring-junit5</artifactId>
       <scope>test</scope>
     </dependency>
   </dependencies>
@@ -221,7 +229,6 @@
             <phase>generate-sources</phase>
             <configuration>
               <generatorName>java</generatorName>
-              <java8>true</java8>
               <inputSpec>${spec.resources.path}/jsonplaceholder/jsonplaceholder-api-v1.0.0.yaml</inputSpec>
               <generateApiTests>false</generateApiTests>
               <generateModelTests>false</generateModelTests>

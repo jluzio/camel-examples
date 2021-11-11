@@ -10,10 +10,12 @@ import org.apache.camel.model.rest.RestBindingMode;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.env.Environment;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
 
 @Component
-public class UsersRoute extends RouteBuilder {
+public class UsersRestRouter extends RouteBuilder {
 
   @Autowired
   private Environment env;
@@ -40,19 +42,20 @@ public class UsersRoute extends RouteBuilder {
         .apiProperty("api.version", "1.0.0");
 
     rest("/users").description("User REST service")
-        .consumes("application/json")
-        .produces("application/json")
+        .consumes(MediaType.APPLICATION_JSON_VALUE)
+        .produces(MediaType.APPLICATION_JSON_VALUE)
 
-        .get().description("Find all users").outType(User[].class)
-        .responseMessage().code(200).message("All users successfully returned").endResponseMessage()
+        .get().id("getUsers").description("Find all users")
+        .outType(User[].class)
+        .responseMessage().code(HttpStatus.OK.value()).message("All users successfully returned").endResponseMessage()
         .to("bean:jsonPlaceholderService?method=getUsers")
 
-        .get("/{id}").description("Find user by ID")
+        .get("/{id}").id("getUser").description("Find user by ID")
         .outType(User.class)
-        .param().name("id").type(path).description("The ID of the user").dataType("integer")
-        .endParam()
-        .responseMessage().code(200).message("User successfully returned").endResponseMessage()
-        .to("bean:jsonPlaceholderService?method=getUser(${header.id})")
+        .param().name("id").type(path).description("The ID of the user").dataType("integer").endParam()
+        .responseMessage().code(HttpStatus.OK.value()).message("User successfully returned").endResponseMessage()
+        .route()
+        .to("bean:jsonPlaceholderService?method=getUser(${header.id})", "file:/home/tmp/camel/users")
 
 //        .put("/{id}").description("Update a user").type(User.class)
 //        .param().name("id").type(path).description("The ID of the user to update").dataType("integer").endParam()

@@ -8,6 +8,12 @@ logging:
 # to reconfigure the camel servlet context-path mapping to use /api/* instead of /camel/*
 camel.servlet.mapping.context-path: /api/*
 
+app:
+  router:
+    file:
+      input: data/input
+      output: data/output
+
 springdoc:
   swagger-ui:
     urls:
