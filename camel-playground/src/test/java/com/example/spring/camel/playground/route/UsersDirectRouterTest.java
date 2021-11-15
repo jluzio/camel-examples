@@ -49,7 +49,7 @@ class UsersDirectRouterTest {
   static class Configuration {
 
     @Bean
-    RouteBuilder testRoute() {
+    RouteBuilder testRouter() {
       return new RouteBuilder() {
         @Override
         public void configure() throws Exception {
