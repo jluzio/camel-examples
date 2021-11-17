@@ -1,13 +1,16 @@
-package com.example.spring.camel.playground.route;
+package com.example.spring.camel.playground.route.file;
 
 import com.example.spring.camel.playground.processor.ArrayListAggregationStrategy;
 import lombok.RequiredArgsConstructor;
+import org.apache.camel.Produce;
 import org.apache.camel.builder.RouteBuilder;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 
 @Component
 @RequiredArgsConstructor
-public class UsersFileRouter extends RouteBuilder {
+@Profile("route-file")
+public class UserFileRouter extends RouteBuilder {
 
   @Override
   public void configure() throws Exception {

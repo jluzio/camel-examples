@@ -1,10 +1,11 @@
-package com.example.spring.camel.playground.route;
+package com.example.spring.camel.playground.route.file;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.when;
 
 import com.example.api.jsonplaceholder.api.v1.JsonPlaceholderApi;
 import com.example.api.jsonplaceholder.api.v1.model.User;
+import com.example.spring.camel.playground.route.UserTestData;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.File;
 import java.io.IOException;
@@ -23,6 +24,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.test.context.ActiveProfiles;
 
 @CamelSpringBootTest
 @SpringBootTest(
@@ -30,8 +32,9 @@ import org.springframework.boot.test.mock.mockito.MockBean;
         "app.router.file.input=target/data/input",
         "app.router.file.output=target/data/output"
     })
+@ActiveProfiles("route-file")
 @Slf4j
-class UsersFileRouterTest {
+class UserFileRouterTest {
 
   @Autowired
   private CamelContext context;
@@ -46,10 +49,10 @@ class UsersFileRouterTest {
   @Autowired
   private ObjectMapper objectMapper;
 
-  private final List<User> users = UsersTestData.USERS;
+  private final List<User> users = UserTestData.USERS;
 
   @Test
-  void test_simple() throws IOException, InterruptedException {
+  void test() throws IOException, InterruptedException {
     File input = new File("target/data/input/users.json");
     File output = new File("target/data/output");
 

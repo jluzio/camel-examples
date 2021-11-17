@@ -1,9 +1,11 @@
 logging:
   level:
     root: WARN
+#    root: INFO
     com.example: DEBUG
     org.apache.camel: INFO
     org.springframework: INFO
+    logTest: INFO
 
 # to reconfigure the camel servlet context-path mapping to use /api/* instead of /camel/*
 camel.servlet.mapping.context-path: /api/*

@@ -7,15 +7,15 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 @ConfigurationProperties(prefix = "app.router")
 @Data
-public class RoutesConfig {
+public class RoutesProperties {
 
   @Data
-  public static class FileConfig {
+  public static class FileProperties {
 
     private String input;
     private String output;
   }
 
-  private FileConfig file;
+  private FileProperties file;
 
 }

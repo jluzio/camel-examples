@@ -15,7 +15,7 @@ import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
 
 @Component
-public class UsersRestRouter extends RouteBuilder {
+public class UserRestRouter extends RouteBuilder {
 
   @Autowired
   private Environment env;

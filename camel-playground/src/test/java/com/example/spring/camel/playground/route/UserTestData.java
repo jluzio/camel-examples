@@ -5,7 +5,7 @@ import java.util.List;
 import lombok.experimental.UtilityClass;
 
 @UtilityClass
-public class UsersTestData {
+public class UserTestData {
 
   public static List<User> USERS = List.of(
       new User().id(1).name("John").username("johndoe").email("johndoe@mail.org"),

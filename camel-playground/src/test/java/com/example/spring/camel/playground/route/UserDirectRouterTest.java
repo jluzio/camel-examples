@@ -6,8 +6,7 @@ import static org.mockito.Mockito.when;
 
 import com.example.api.jsonplaceholder.api.v1.JsonPlaceholderApi;
 import com.example.api.jsonplaceholder.api.v1.model.User;
-import com.example.spring.camel.playground.CamelPlaygroundApplication;
-import com.example.spring.camel.playground.route.UsersDirectRouterTest.Configuration;
+import com.example.spring.camel.playground.route.UserDirectRouterTest.RouteConfiguration;
 import java.util.List;
 import java.util.Objects;
 import lombok.extern.slf4j.Slf4j;
@@ -28,25 +27,12 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Bean;
 
 @CamelSpringBootTest
-@SpringBootTest(classes = Configuration.class)
+@SpringBootTest(classes = RouteConfiguration.class)
 @Slf4j
-class UsersDirectRouterTest {
-
-  @Autowired
-  private CamelContext context;
-  @Autowired
-  private ProducerTemplate producerTemplate;
-  @Produce("direct:start")
-  private ProducerTemplate start;
-  @EndpointInject("mock:output")
-  private MockEndpoint mockOutput;
-  @MockBean
-  private JsonPlaceholderApi jsonPlaceholderApi;
-
-  private final List<User> users = UsersTestData.USERS;
+class UserDirectRouterTest {
 
   @TestConfiguration
-  static class Configuration {
+  static class RouteConfiguration {
 
     @Bean
     RouteBuilder testRouter() {
@@ -60,6 +46,19 @@ class UsersDirectRouterTest {
       };
     }
   }
+
+  @Autowired
+  private CamelContext context;
+  @Autowired
+  private ProducerTemplate producerTemplate;
+  @Produce("direct:start")
+  private ProducerTemplate start;
+  @EndpointInject("mock:output")
+  private MockEndpoint mockOutput;
+  @MockBean
+  private JsonPlaceholderApi jsonPlaceholderApi;
+
+  private final List<User> users = UserTestData.USERS;
 
   @Test
   void test_simple() {
