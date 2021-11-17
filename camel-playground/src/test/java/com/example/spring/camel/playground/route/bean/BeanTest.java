@@ -19,6 +19,9 @@ import org.springframework.stereotype.Component;
 @CamelSpringBootTest
 @SpringBootTest
 @Slf4j
+/**
+ * @see https://camel.apache.org/manual/bean-binding.html
+ */
 class BeanTest {
 
   @TestConfiguration
