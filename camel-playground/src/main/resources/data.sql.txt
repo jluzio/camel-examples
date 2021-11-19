@@ -1,0 +1,4 @@
+INSERT INTO user_info (id, username, album_count, post_count, todo_count)
+  VALUES
+      (1, 'johndoe', 0, 0, 0),
+      (2, 'janedoe', 0, 0, 0);

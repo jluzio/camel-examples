@@ -21,7 +21,7 @@ springdoc:
     urls:
       - name: camel api
         url: /api/api-doc
-      - name: standard api
+      - name: default api
         url: /v3/api-docs
 
 # rest can also be configured here instead in the CamelRouter class

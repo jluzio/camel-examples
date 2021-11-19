@@ -1,6 +1,6 @@
-package com.example.spring.camel.playground.route;
+package com.example.spring.camel.playground.route.error;
 
-import com.example.spring.camel.playground.route.DeadLetterChannelRouterTest.Config;
+import com.example.spring.camel.playground.route.error.DeadLetterChannelRouterTest.Config;
 import java.util.concurrent.TimeUnit;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.camel.EndpointInject;

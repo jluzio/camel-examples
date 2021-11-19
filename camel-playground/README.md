@@ -13,3 +13,13 @@ https://camel.apache.org/components/next/eips/enterprise-integration-patterns.ht
 
 ## Examples
 https://github.com/apache/camel-spring-boot-examples
+
+## Management UIs
+- [Kafka][kafka-mng]
+- [Rabbit][rabbit-mng] - user: `guest` | pass: `guest`
+
+[kafka]: https://kafka.apache.org
+[rabbit]: https://www.rabbitmq.com
+
+[kafka-mng]: http://localhost:9000
+[rabbit-mng]: http://localhost:15672
