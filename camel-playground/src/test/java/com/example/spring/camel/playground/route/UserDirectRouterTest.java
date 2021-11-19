@@ -6,7 +6,6 @@ import static org.mockito.Mockito.when;
 
 import com.example.api.jsonplaceholder.api.v1.JsonPlaceholderApi;
 import com.example.api.jsonplaceholder.api.v1.model.User;
-import com.example.spring.camel.playground.route.UserDirectRouterTest.RouteConfiguration;
 import java.util.List;
 import java.util.Objects;
 import lombok.extern.slf4j.Slf4j;
@@ -27,7 +26,7 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Bean;
 
 @CamelSpringBootTest
-@SpringBootTest(classes = RouteConfiguration.class)
+@SpringBootTest(classes = UserDirectRouterTest.RouteConfiguration.class)
 @Slf4j
 class UserDirectRouterTest {
 

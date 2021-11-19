@@ -44,6 +44,20 @@
     <dependency>
       <groupId>org.springframework.boot</groupId>
       <artifactId>spring-boot-starter-web</artifactId>
+      <exclusions>
+        <exclusion>
+          <groupId>org.springframework.boot</groupId>
+          <artifactId>spring-boot-starter-tomcat</artifactId>
+        </exclusion>
+      </exclusions>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-undertow</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-actuator</artifactId>
     </dependency>
 
     <dependency>
@@ -93,9 +107,10 @@
       <groupId>org.apache.camel.springboot</groupId>
       <artifactId>camel-stream-starter</artifactId>
     </dependency>
+    <!-- use http as rest producer -->
     <dependency>
       <groupId>org.apache.camel.springboot</groupId>
-      <artifactId>camel-log-starter</artifactId>
+      <artifactId>camel-http-starter</artifactId>
     </dependency>
 
     <dependency>

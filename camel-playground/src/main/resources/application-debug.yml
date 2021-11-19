@@ -1,0 +1,8 @@
+logging:
+  level:
+    root: WARN
+#    root: INFO
+    com.example: DEBUG
+    org.apache.camel: DEBUG
+    org.springframework: DEBUG
+

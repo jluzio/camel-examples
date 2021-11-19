@@ -1,10 +1,8 @@
-package com.example.spring.camel.playground.route;
+package com.example.spring.camel.playground.route.rest;
 
-import static org.apache.camel.model.rest.RestParamType.body;
 import static org.apache.camel.model.rest.RestParamType.path;
 
 import com.example.api.jsonplaceholder.api.v1.model.User;
-import org.apache.camel.Exchange;
 import org.apache.camel.builder.RouteBuilder;
 import org.apache.camel.model.rest.RestBindingMode;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -55,7 +53,7 @@ public class UserRestRouter extends RouteBuilder {
         .param().name("id").type(path).description("The ID of the user").dataType("integer").endParam()
         .responseMessage().code(HttpStatus.OK.value()).message("User successfully returned").endResponseMessage()
         .route()
-        .to("bean:jsonPlaceholderService?method=getUser(${header.id})", "file:/home/tmp/camel/users")
+        .to("bean:jsonPlaceholderService?method=getUser(${header.id})")
 
 //        .put("/{id}").description("Update a user").type(User.class)
 //        .param().name("id").type(path).description("The ID of the user to update").dataType("integer").endParam()
