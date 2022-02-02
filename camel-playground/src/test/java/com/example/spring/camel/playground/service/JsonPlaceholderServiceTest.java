@@ -1,7 +1,5 @@
 package com.example.spring.camel.playground.service;
 
-import static org.junit.jupiter.api.Assertions.*;
-
 import com.example.api.jsonplaceholder.api.v1.model.User;
 import java.util.List;
 import org.junit.jupiter.api.Test;

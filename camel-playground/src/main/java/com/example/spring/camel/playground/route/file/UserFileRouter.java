@@ -2,7 +2,6 @@ package com.example.spring.camel.playground.route.file;
 
 import com.example.spring.camel.playground.processor.ArrayListAggregationStrategy;
 import lombok.RequiredArgsConstructor;
-import org.apache.camel.Produce;
 import org.apache.camel.builder.RouteBuilder;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;

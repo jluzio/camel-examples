@@ -1,4 +1,4 @@
-package com.example.spring.camel.playground.route.log;
+package com.example.spring.camel.playground.route.intercept;
 
 import java.io.IOException;
 import lombok.extern.slf4j.Slf4j;
@@ -18,40 +18,63 @@ import org.springframework.context.annotation.Bean;
 @CamelSpringBootTest
 @SpringBootTest
 @Slf4j
-class LogTest {
+class InterceptSendToEndpointTest {
 
   @TestConfiguration
   static class RouteConfiguration {
 
     @Bean
     RouteBuilder testRouter() {
-      return new RouteBuilder() {
+      return new BaseRouteBuilder() {
         @Override
         public void configure() throws Exception {
-          from("timer:log?period=100")
-              .routeId("logTest")
-              .transform().simple("${random(0,200)}", String.class)
-              // by default uses routeId as log category and level=INFO
-              .log(">>> logTest: ${body}")
-              .to("stream:out")
-              .to("log:com.example.logTest?level=DEBUG")
-              .to("mock:output");
+          interceptSendToEndpoint("mock:middle")
+              .to("log:intercepted");
+          interceptSendToEndpoint("mock:output")
+              .skipSendToOriginalEndpoint()
+              .to("mock:intercept");
+          super.configure();
         }
       };
     }
+
+    class BaseRouteBuilder extends RouteBuilder {
+      @Override
+      public void configure() throws Exception {
+        // @formatter:off
+        from("direct:start")
+            .routeId("extensibleRoute")
+            .to("mock:middle")
+            .to("mock:output")
+        ;
+        // @formatter:on
+      }
+    };
+
   }
 
   @Autowired
   private CamelContext context;
+  @Autowired
+  private RouteBuilder testRouter;
   @Produce("direct:start")
   private ProducerTemplate start;
+  @EndpointInject("mock:middle")
+  private MockEndpoint mockMiddle;
   @EndpointInject("mock:output")
   private MockEndpoint mockOutput;
+  @EndpointInject("mock:intercepted")
+  private MockEndpoint mockIntercepted;
 
 
   @Test
   void test() throws IOException, InterruptedException {
-    mockOutput.expectedMessageCount(3);
+
+    mockMiddle.expectedMessageCount(1);
+    mockOutput.expectedMessageCount(0);
+    mockIntercepted.expectedMessageCount(1);
+
+    start.requestBody("test1");
 
     mockOutput.assertIsSatisfied();
   }
