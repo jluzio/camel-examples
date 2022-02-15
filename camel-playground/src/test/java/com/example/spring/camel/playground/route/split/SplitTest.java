@@ -1,6 +1,5 @@
 package com.example.spring.camel.playground.route.split;
 
-import com.example.spring.camel.playground.processor.ArrayListAggregationStrategy;
 import com.example.spring.camel.playground.route.split.SplitTest.RouteConfiguration;
 import java.util.List;
 import lombok.AllArgsConstructor;
@@ -12,6 +11,7 @@ import org.apache.camel.CamelContext;
 import org.apache.camel.EndpointInject;
 import org.apache.camel.Produce;
 import org.apache.camel.ProducerTemplate;
+import org.apache.camel.builder.AggregationStrategies;
 import org.apache.camel.builder.RouteBuilder;
 import org.apache.camel.component.mock.MockEndpoint;
 import org.apache.camel.spring.boot.CamelAutoConfiguration;
@@ -19,7 +19,6 @@ import org.apache.camel.test.spring.junit5.CamelSpringBootTest;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
@@ -61,7 +60,8 @@ class SplitTest {
               .routeId("com.example.request")
               .to("log:com.example.default?level=INFO")
               .log("${body.items}")
-              .split(simple("${body.items}"), new ArrayListAggregationStrategy())
+              .split(simple("${body.items}"), AggregationStrategies.groupedBody())
+//              .split(simple("${body.items}"), new ArrayListAggregationStrategy())
               .streaming()
                 .to("log:com.example.default?level=INFO")
                 .log("${body.id}")
@@ -112,7 +112,7 @@ class SplitTest {
         ))
         .build();
 
-    start.sendBody("direct:start", request);
+    start.sendBody(request);
 
     mockResult.assertIsSatisfied();
   }
