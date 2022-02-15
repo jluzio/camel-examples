@@ -14,7 +14,7 @@ public class UserFileRouter extends RouteBuilder {
   @Override
   public void configure() throws Exception {
     //@formatter:off
-    from("file:{{app.router.file.input}}?filename=users.json&delete=true")
+    from("file:{{app.router.file.input}}?fileName=users.json&delete=true")
         .unmarshal().json(Integer[].class)
         .split(body(), new ArrayListAggregationStrategy())
 //        .streaming()
