@@ -59,11 +59,11 @@ class SplitTest {
           //@formatter:off
           from("direct:start")
               .routeId("com.example.request")
-              .to("log:com.example?level=INFO")
+              .to("log:com.example.default?level=INFO")
               .log("${body.items}")
               .split(simple("${body.items}"), new ArrayListAggregationStrategy())
               .streaming()
-                .to("log:com.example?level=INFO")
+                .to("log:com.example.default?level=INFO")
                 .log("${body.id}")
                 .to("direct:start-item")
               .end()
@@ -82,7 +82,7 @@ class SplitTest {
           //@formatter:off
           from("direct:start-item")
               .routeId("com.example.item")
-              .to("log:com.example?level=INFO")
+              .to("log:com.example.default?level=INFO")
               .log("${body.id}")
               .transform(simple("${body.id}"))
           ;
