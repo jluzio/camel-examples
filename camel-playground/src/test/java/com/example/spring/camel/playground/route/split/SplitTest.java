@@ -1,6 +1,7 @@
 package com.example.spring.camel.playground.route.split;
 
 import com.example.spring.camel.playground.processor.ArrayListAggregationStrategy;
+import com.example.spring.camel.playground.route.split.SplitTest.RouteConfiguration;
 import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -13,15 +14,19 @@ import org.apache.camel.Produce;
 import org.apache.camel.ProducerTemplate;
 import org.apache.camel.builder.RouteBuilder;
 import org.apache.camel.component.mock.MockEndpoint;
+import org.apache.camel.spring.boot.CamelAutoConfiguration;
 import org.apache.camel.test.spring.junit5.CamelSpringBootTest;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Import;
 
 @CamelSpringBootTest
-@SpringBootTest
+@SpringBootTest(classes = RouteConfiguration.class)
+@Import(CamelAutoConfiguration.class)
 @Slf4j
 class SplitTest {
 
@@ -43,7 +48,7 @@ class SplitTest {
     private String id;
   }
 
-  @TestConfiguration
+  @Configuration
   static class RouteConfiguration {
 
     @Bean
