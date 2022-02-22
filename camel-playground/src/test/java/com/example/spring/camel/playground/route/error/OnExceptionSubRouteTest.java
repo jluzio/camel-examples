@@ -15,9 +15,9 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Component;
 
 @CamelSpringBootTest
-@SpringBootTest(classes = OnExceptionTest.Config.class)
+@SpringBootTest(classes = OnExceptionSubRouteTest.Config.class)
 @Slf4j
-class OnExceptionTest {
+class OnExceptionSubRouteTest {
 
   @Produce("direct:start")
   private ProducerTemplate start;
@@ -35,22 +35,22 @@ class OnExceptionTest {
         @Override
         public void configure() throws Exception {
           //@formatter:off
-          onException(Exception.class)
-              .handled(true)
-//              .setBody(exceptionMessage())
-              .transform(exceptionMessage())
-              .to("mock:exceptionOutput");
-
           from("direct:start")
               .pipeline()
                 .to("direct:normal-service")
                 .to("direct:faulty-service")
+                .to("direct:normal-service")
               .end()
               .to("mock:successOutput");
 
           from("direct:normal-service")
               .bean(NormalService.class);
           from("direct:faulty-service")
+              .onException(Exception.class)
+                .handled(true)
+                .bean(RecoveryService.class)
+//                .transform(exceptionMessage())
+              .end()
               .bean(FaultyService.class);
           //@formatter:on
         }
@@ -74,11 +74,18 @@ class OnExceptionTest {
     }
   }
 
+  @Component
+  static class RecoveryService {
+
+    public String process(String previousValue) {
+      return String.join("-", previousValue, "recovered");
+    }
+  }
+
   @Test
   void test() throws Exception {
     mockSuccessOutput.expectedMessageCount(0);
-    mockExceptionOutput.expectedMessageCount(1);
-    mockExceptionOutput.expectedBodiesReceived("can't handle maths");
+    mockExceptionOutput.expectedMessageCount(0);
 
     start.sendBody("start");
 

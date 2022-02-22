@@ -4,5 +4,10 @@ logging:
 #    root: INFO
     com.example: DEBUG
     org.apache.camel: DEBUG
-    org.springframework: DEBUG
+#    org.springframework: DEBUG
+    org.springframework: WARN
 
+camel:
+  springboot:
+    tracing: true
+    tracing-standby: true

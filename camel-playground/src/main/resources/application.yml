@@ -10,6 +10,10 @@ logging:
 # to reconfigure the camel servlet context-path mapping to use /api/* instead of /camel/*
 camel.servlet.mapping.context-path: /api/*
 
+spring:
+  profiles:
+    active: debug
+
 app:
   router:
     file:
