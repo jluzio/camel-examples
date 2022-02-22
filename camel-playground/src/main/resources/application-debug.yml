@@ -11,3 +11,6 @@ camel:
   springboot:
     tracing: true
     tracing-standby: true
+    tracing-logging-format: "%-4.4s [%-30.30s] [%-80.80s]"
+#    tracing-logging-format: "%-4.4s [%-30.30s] [%-50.50s]"
+#    tracing-logging-format: "%-4.4s [%s] [%s]"
