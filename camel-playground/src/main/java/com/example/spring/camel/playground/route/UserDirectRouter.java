@@ -11,14 +11,12 @@ public class UserDirectRouter extends RouteBuilder {
   public void configure() throws Exception {
     from("direct:getUsers")
         .routeId("direct-getUsers")
-        .tracing()
         .log(">>> ${body}")
         .bean(JsonPlaceholderService.class, "getUsers")
         .end();
 
     from("direct:getUser")
         .routeId("direct-getUser")
-        .tracing()
         .log(">>> ${body}")
         .bean(JsonPlaceholderService.class, "getUser")
         .end();

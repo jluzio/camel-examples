@@ -42,10 +42,8 @@ class OnExceptionTest {
               .to("mock:exceptionOutput");
 
           from("direct:start")
-              .pipeline()
-                .to("direct:normal-service")
-                .to("direct:faulty-service")
-              .end()
+              .to("direct:normal-service")
+              .to("direct:faulty-service")
               .to("mock:successOutput");
 
           from("direct:normal-service")

@@ -1,16 +1,18 @@
 logging:
   level:
-    root: WARN
-#    root: INFO
+#    root: WARN
+    root: INFO
     com.example: DEBUG
-    org.apache.camel: DEBUG
+    org.apache.camel: INFO
+#    org.apache.camel: DEBUG
+    org.apache.camel.Tracing: DEBUG
 #    org.springframework: DEBUG
     org.springframework: WARN
 
 camel:
   springboot:
     tracing: true
-    tracing-standby: true
+#    tracing-standby: true
     tracing-logging-format: "%-4.4s [%-30.30s] [%-80.80s]"
 #    tracing-logging-format: "%-4.4s [%-30.30s] [%-50.50s]"
 #    tracing-logging-format: "%-4.4s [%s] [%s]"

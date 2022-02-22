@@ -36,11 +36,9 @@ class DoTryTest {
         public void configure() throws Exception {
           //@formatter:off
           from("direct:start")
-              .pipeline()
-                .to("direct:normal-service")
-                .to("direct:faulty-service")
-                .to("direct:normal-service")
-              .end()
+              .to("direct:normal-service")
+              .to("direct:faulty-service")
+              .to("direct:normal-service")
               .to("mock:successOutput");
 
           from("direct:normal-service")
@@ -50,7 +48,8 @@ class DoTryTest {
                 .bean(FaultyService.class)
               .doCatch(Exception.class)
                 .bean(RecoveryService.class)
-              .end();
+              .end()
+              ;
           //@formatter:on
         }
       };
