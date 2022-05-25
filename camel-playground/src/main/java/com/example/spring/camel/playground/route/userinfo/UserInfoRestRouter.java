@@ -25,22 +25,27 @@ public class UserInfoRestRouter extends RouteBuilder {
         .setHeader(Exchange.CONTENT_TYPE, constant(MediaType.APPLICATION_JSON))
         .setBody(exceptionMessage());
 
-    var api = rest("/user-infos").description("User Infos REST service")
-        .consumes(MediaType.APPLICATION_JSON_VALUE)
-        .produces(MediaType.APPLICATION_JSON_VALUE);
     // @formatter:off
-    api.get().id("rest-user-infos").description("Find all users")
+    rest("/user-infos").description("User Infos REST service")
+        .consumes(MediaType.APPLICATION_JSON_VALUE)
+        .produces(MediaType.APPLICATION_JSON_VALUE)
+
+        .get().id("rest-user-infos").description("Find all users")
         .outType(UserInfo[].class)
         .responseMessage().code(HttpStatus.OK.value()).message("All users successfully returned").endResponseMessage()
-        .to("direct:getUserInfos");
-    api.get("/{id}").id("rest-user-info").description("Find user by ID")
+        .to("direct:getUserInfos")
+
+        .get("/{id}").id("rest-user-info").description("Find user by ID")
         .outType(User.class)
-        .param().name("id").type(path).description("The ID of the user").dataType("integer").endParam()
+        .param().name("id").type(path).description("The ID of the user").dataType("integer")
+        .endParam()
         .responseMessage().code(HttpStatus.OK.value()).message("User successfully returned").endResponseMessage()
-        .route()
-          .transform(simple("${header.id}", Integer.class))
-          .to("direct:getUserInfo");
+        .to("direct:getUserInfo-by-id");
     // @formatter:on
+
+    from("direct:getUserInfo-by-id")
+        .transform(simple("${header.id}", Integer.class))
+        .bean(UserInfoService.class, "getUserInfo");
 
     from("direct:getUserInfos")
         .bean(UserInfoService.class, "findUserInfos");

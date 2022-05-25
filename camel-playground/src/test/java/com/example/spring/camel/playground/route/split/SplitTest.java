@@ -1,11 +1,7 @@
 package com.example.spring.camel.playground.route.split;
 
-import com.example.spring.camel.playground.route.split.SplitTest.RouteConfiguration;
 import java.util.List;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.RequiredArgsConstructor;
+import lombok.Value;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.camel.CamelContext;
 import org.apache.camel.EndpointInject;
@@ -22,29 +18,24 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
+import org.springframework.stereotype.Component;
 
 @CamelSpringBootTest
-@SpringBootTest(classes = RouteConfiguration.class)
+@SpringBootTest
 @Import(CamelAutoConfiguration.class)
 @Slf4j
 class SplitTest {
 
-  @Data
-  @RequiredArgsConstructor
-  @AllArgsConstructor
-  @Builder
+  @Value
   static class Request {
 
-    private List<Item> items;
+    List<Item> items;
   }
 
-  @Data
-  @RequiredArgsConstructor
-  @AllArgsConstructor
-  @Builder
+  @Value
   static class Item {
 
-    private String id;
+    String id;
   }
 
   @Configuration
@@ -85,10 +76,19 @@ class SplitTest {
               .to("log:com.example.default?level=INFO")
               .log("${body.id}")
               .transform(simple("${body.id}"))
+              .bean(ItemProcessor.class, "process");
           ;
           //@formatter:on
         }
       };
+    }
+
+    @Component
+    static class ItemProcessor {
+
+      public String process(String value) {
+        return "Received: %s".formatted(value);
+      }
     }
   }
 
@@ -103,14 +103,14 @@ class SplitTest {
   @Test
   void test_split() throws InterruptedException {
     mockResult.expectedBodyReceived()
-        .constant(List.of("id1", "id2"));
+        .constant(List.of("Received: 1", "Received: 2", "Received: 3"));
 
-    Request request = Request.builder()
-        .items(List.of(
-            Item.builder().id("id1").build(),
-            Item.builder().id("id2").build()
-        ))
-        .build();
+    Request request = new Request(
+        List.of(
+            new Item("1"),
+            new Item("2"),
+            new Item("3")
+        ));
 
     start.sendBody(request);
 

@@ -28,7 +28,6 @@ public class UserRestRouter extends RouteBuilder {
         .outType(User.class)
         .param().name("id").type(path).description("The ID of the user").dataType("integer").endParam()
         .responseMessage().code(HttpStatus.OK.value()).message("User successfully returned").endResponseMessage()
-        .route()
         .to("bean:jsonPlaceholderService?method=getUser(${header.id})")
 
 //        .put("/{id}").description("Update a user").type(User.class)
